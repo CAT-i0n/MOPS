@@ -14,8 +14,6 @@ class algTree:
                 return
             if a.getText()!='\n':
                 print("(",a.getText(),")", end = "")
-            if a.getText()=='<EOF>':
-                print("end", end = "")
             return
         else:
             print('(', end = "")
