@@ -5,24 +5,34 @@ from Python3Parser import Python3Parser
 
 
 class algTree:
-    def __init__(self):
-        childs = []
-    def visit(self, a):
-        if a.__class__.__name__ == 'TerminalNodeImpl':
-            if a.getText()=='<EOF>':
-                print("end", end = "")
-                return
-            if a.getText()!='\n':
-                print("(",a.getText(),")", end = "")
+    def __init__(self, ast):
+        self.ast = ast
+        self.childs = []
+        self.data_type = ''
+        self.data = ''
+    def visit(self):
+        if self.data_type == 'TerminalNodeImpl':
+            print(self.data)
             return
         else:
             print('(', end = "")
-            print(a.__class__.__name__, end = "")
-            for i in a.children:
-                self.visit(i)
+            print(self.data_type)
+            for i in self.childs:
+                i.visit()
             print(')', end = "")
             return
-    
+    def build(self):
+        self.data_type = self.ast.__class__.__name__
+        self.data = self.ast.getText()
+        if self.ast.__class__.__name__ == 'TerminalNodeImpl':
+            return
+        else:
+            for i in self.ast.children:
+                child = algTree(i)
+                child.build()
+                self.childs.append(child)
+            return
+        
 
 
 def main(argv):
@@ -31,8 +41,9 @@ def main(argv):
     stream = CommonTokenStream(lexer)
     parser = Python3Parser(stream)
     tree = parser.file_input()
-    walker = algTree()
-    walker.visit(tree)
+    walker = algTree(tree)
+    walker.build()
+    walker.visit()
     
 
 main([None, 'test.py'])
