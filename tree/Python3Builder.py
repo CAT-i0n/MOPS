@@ -11,25 +11,28 @@ class algTree:
         self.data_type = ''
         self.data = ''
     def visit(self):
-        if self.data_type == 'TerminalNodeImpl':
-            print(self.data)
+        if self.data_type == 'terminal':
+            if self.data == '\n':
+                return
+            print(self.data, end = "")
             return
         else:
             print('(', end = "")
-            print(self.data_type)
+            print(self.data_type, end = "")
             for i in self.childs:
                 i.visit()
             print(')', end = "")
             return
-    def build(self):
-        self.data_type = self.ast.__class__.__name__
+    def build(self, rules):
         self.data = self.ast.getText()
         if self.ast.__class__.__name__ == 'TerminalNodeImpl':
+            self.data_type = 'terminal'
             return
         else:
+            self.data_type = rules.ruleNames[self.ast.getRuleIndex()] 
             for i in self.ast.children:
                 child = algTree(i)
-                child.build()
+                child.build(rules)
                 self.childs.append(child)
             return
         
@@ -42,11 +45,12 @@ def main(argv):
     parser = Python3Parser(stream)
     tree = parser.file_input()
     walker = algTree(tree)
-    walker.build()
+    walker.build(parser)
     walker.visit()
     
 
-main([None, 'test.py'])
+project_path = 'test.py'
+main([None, project_path])
 
 
 #if __name__ == '__main__':
