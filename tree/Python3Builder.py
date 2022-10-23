@@ -5,25 +5,23 @@ from Python3Parser import Python3Parser
 
 
 class algTree:
-    def __init__(self, ast):
+    def __init__(self, ast = None):
         self.ast = ast
         self.childs = []
         self.data_type = ''
         self.data = ''
-    def visit(self):
-        if self.data_type == 'terminal':
-            if self.data == '\n':
-                return
-            print(self.data, end = "")
-            return
-        else:
-            print('(', end = "")
-            print(self.data_type, end = "")
-            for i in self.childs:
-                i.visit()
-            print(')', end = "")
-            return
-    def build(self, rules):
+        
+    def root(self, datapath):
+        input_stream = FileStream(datapath)
+        lexer = Python3Lexer(input_stream)
+        stream = CommonTokenStream(lexer)
+        self.parser = Python3Parser(stream)
+        self.ast = self.parser.file_input()
+        self._build()
+        
+    def _build(self, rules = None):
+        if not rules:
+            rules = self.parser
         self.data = self.ast.getText()
         if self.ast.__class__.__name__ == 'TerminalNodeImpl':
             self.data_type = 'terminal'
@@ -32,21 +30,29 @@ class algTree:
             self.data_type = rules.ruleNames[self.ast.getRuleIndex()] 
             for i in self.ast.children:
                 child = algTree(i)
-                child.build(rules)
+                child._build(rules)
                 self.childs.append(child)
             return
-        
-
+    
+    def visit(self):
+        if self.data_type == 'terminal':
+            if self.data == '\n':
+                return
+            print('\n', self.data)
+            return
+        else:
+            print('(', end = "")
+            print(self.data_type, end = "")
+            for i in self.childs:
+                i.visit()
+            print(')', end = "")
+            return
+    
 
 def main(argv):
-    input_stream = FileStream(argv[1])
-    lexer = Python3Lexer(input_stream)
-    stream = CommonTokenStream(lexer)
-    parser = Python3Parser(stream)
-    tree = parser.file_input()
-    walker = algTree(tree)
-    walker.build(parser)
-    walker.visit()
+    test_tree = algTree()
+    test_tree.root(argv[1])
+    test_tree.visit()
     
 
 project_path = 'test.py'
