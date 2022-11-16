@@ -1,7 +1,7 @@
 import sys
 from antlr4 import *
-from Python3Lexer import Python3Lexer
-from Python3Parser import Python3Parser
+from tree.Python3Lexer import Python3Lexer
+from tree.Python3Parser import Python3Parser
 
 
 class algTree:
@@ -48,16 +48,3 @@ class algTree:
             print(')', end = "")
             return
     
-
-def main(argv):
-    test_tree = algTree()
-    test_tree.root(argv[1])
-    test_tree.visit()
-    
-
-project_path = 'test.py'
-main([None, project_path])
-
-
-#if __name__ == '__main__':
-#    main(sys.argv)
