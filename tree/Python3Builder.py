@@ -10,7 +10,7 @@ class algTree:
         self.childs = []
         self.data_type = ''
         self.data = ''
-        
+    
     def root(self, datapath):
         input_stream = FileStream(datapath)
         lexer = Python3Lexer(input_stream)
@@ -47,4 +47,13 @@ class algTree:
                 i.visit()
             print(')', end = "")
             return
+    
+    def get_children(self):
+        return self.childs
+    
+    def get_label(self):
+        if self.data_type == 'terminal':
+            return self.data
+        else:
+            return self.data_type
     
