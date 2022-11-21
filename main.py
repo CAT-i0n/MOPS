@@ -1,7 +1,5 @@
 from com.load_project import prepare_projects
 from tree.Python3Builder import algTree
-from tree.Python3Lexer import Python3Lexer
-from tree.Python3Parser import Python3Parser
 from alg.TreeComparison import zcc_comparison
 
 if __name__ == "__main__":
