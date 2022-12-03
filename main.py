@@ -1,4 +1,4 @@
-from com.load_project import prepare_projects
+from loader.projectLoad import prepare_projects
 from tree.Python3Builder import algTree
 from alg.TreeComparison import zcc_comparison
 
