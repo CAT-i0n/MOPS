@@ -4,12 +4,30 @@ from antlr4 import *
 
 from tree.Python3Lexer import Python3Lexer
 
+class ComparisonResult:
 
+    def __init__(self, first, second, matchs):
+        self.first = first
+        self.second = second
+        self.matchs = matchs
+
+    def similarity(self) -> float:
+        similarity = 0
+        for i in range(len(self.matchs)):
+            similarity += self.matchs[i].length
+
+        similarityFirst = similarity / len(self.first)
+        similaritySecond = similarity / len(self.second)
+
+        return max(similarityFirst, similaritySecond)
+        
 
 class Match:
-    startFirst = 0
-    startSecond = 0
-    length = 0
+
+    def __init__(self):
+        self.startFirst = 0
+        self.startSecond = 0
+        self.length = 0
     
     def overlaps(self, other):
         if self.startFirst < other.startFirst:
@@ -47,12 +65,8 @@ def addMatchIfNotOverlapping(matchs, match):
             return
     matchs.append(match)
 
-def comparison(first, second):
-    if len(first) > len(second):
-        return comparison(second, first)
-  
+def comparison(first, second) -> ComparisonResult:
     globalMatchs = []
-
     for startFirst in range(len(first)):
         for startSecond in range(len(second)):
             length = 0
@@ -68,12 +82,4 @@ def comparison(first, second):
                 m.startSecond = startSecond
                 m.length = length
                 addMatchIfNotOverlapping(globalMatchs, m)
-
-    similarity = 0
-    for i in range(len(globalMatchs)):
-        similarity += globalMatchs[i].length
-
-    similarityFirst = similarity / len(first)
-    similaritySecond = similarity / len(second)
-
-    return max(similarityFirst, similaritySecond)
+    return ComparisonResult(first, second, globalMatchs)
