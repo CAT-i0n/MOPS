@@ -59,11 +59,18 @@ def getTokenTypes(file: str):
 
     return result
     
-def addMatchIfNotOverlapping(matchs, match):
+def addMatchIfNotOverlapping(matchs: list[Match], match):
+    over = []
     for m in matchs:
         if m.overlaps(match):
-            return
-    matchs.append(match)
+            over.append(m)
+    sum = 0
+    for m in over:
+        sum += m.length
+    if sum < match.length:
+        for m in over:
+            matchs.remove(m)
+        matchs.append(match)
 
 def comparison(first, second) -> ComparisonResult:
     globalMatchs = []
