@@ -48,4 +48,4 @@ def comparison(first, second, k = 5, w = 4):
     first = compress(first, k, w)
     second = compress(second, k, w)
 
-    return base_comparison(first, second)
+    return base_comparison(first, second).similarity()
