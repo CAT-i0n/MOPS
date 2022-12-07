@@ -1,6 +1,6 @@
 import zss
 
-def zcc_comparison(algTree, tree1, tree2):
+def zss_comparison(algTree, tree1, tree2):
     diff = zss.simple_distance(
         tree1, tree2, algTree.get_children, algTree.get_label)
     dlen = abs(tree1.size - tree2.size)
