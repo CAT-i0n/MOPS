@@ -1,6 +1,5 @@
 import sys
 sys.path.append('../')
-
 from alg.StringComparison import *
 
 def getText(file: str):
