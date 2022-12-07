@@ -10,6 +10,7 @@ class algTree:
         self.childs = []
         self.data_type = ''
         self.data = ''
+        self.size = 0
     
     def root(self, datapath):
         input_stream = FileStream(datapath)
@@ -17,7 +18,7 @@ class algTree:
         stream = CommonTokenStream(lexer)
         self.parser = Python3Parser(stream)
         self.ast = self.parser.file_input()
-        self._build()
+        self.size = self._build()
         
     def _build(self, rules = None):
         if not rules:
@@ -25,14 +26,15 @@ class algTree:
         self.data = self.ast.getText()
         if self.ast.__class__.__name__ == 'TerminalNodeImpl':
             self.data_type = 'terminal'
-            return
+            return 0
         else:
+            local_size = len(self.ast.children)
             self.data_type = rules.ruleNames[self.ast.getRuleIndex()] 
             for i in self.ast.children:
                 child = algTree(i)
-                child._build(rules)
+                local_size += child._build(rules)
                 self.childs.append(child)
-            return
+            return local_size
     
     def visit(self):
         if self.data_type == 'terminal':
