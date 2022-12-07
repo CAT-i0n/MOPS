@@ -1,5 +1,5 @@
-a=2**2
+a=2**int(input())
 if a == 4:
     print("true")
 else: 
-    print("false")
+    a == 4
