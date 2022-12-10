@@ -76,30 +76,27 @@ def printComparisonReport(file1: str, file2: str):
         lines2 = f.read().split('\n')
 
     for m in result.matchs:
-        line1 = range(tokens1[m.startFirst].line, tokens1[m.startFirst + m.length].line)
-        line2 = range(tokens2[m.startSecond].line, tokens2[m.startSecond + m.length].line)
-        
-        if len(line1) < 3 and len(line2) < 3:
+        line1 = range(tokens1[m.startFirst].line, tokens1[m.startFirst + m.length].line + 1)
+        line2 = range(tokens2[m.startSecond].line, tokens2[m.startSecond + m.length].line + 1)
+
+        if len(line1) < 4 and len(line2) < 4:
             continue
 
+        for i in range(min(len(line1), len(line2))):
+            print(formatLine('{}. {}'.format(line1[i], lines1[line1[i]-1])), end='')
+            print('|', end='')
+            print(formatLine('{}. {}'.format(line2[i], lines2[line2[i]-1])))
+
         if len(line1) > len(line2):
-            for i in range(len(line2)):
-                print(formatLine('{}. {}'.format(line1[i], lines1[line1[i]])), end='')
-                print('|', end='')
-                print(formatLine('{}. {}'.format(line2[i], lines2[line2[i]])))
             for i in range(len(line2), len(line1)):
-                print(formatLine('{}. {}'.format(line1[i], lines1[line1[i]])))
+                print(formatLine('{}. {}'.format(line1[i], lines1[line1[i]-1])))
                 print('|', end='')
                 print(formatLine(''), end='')
         else:
-            for i in range(len(line1)):
-                print(formatLine('{}. {}'.format(line1[i], lines1[line1[i]])), end='')
-                print('|', end='')
-                print(formatLine('{}. {}'.format(line2[i], lines2[line2[i]])))
             for i in range(len(line1), len(line2)):
                 print(formatLine(''), end='')
                 print('|', end='')
-                print(formatLine('{}. {}'.format(line2[i], lines2[line2[i]])))
+                print(formatLine('{}. {}'.format(line2[i], lines2[line2[i]-1])))
         print('-' * SIZE, end='')
         print('|', end='')
         print('-' * SIZE)
