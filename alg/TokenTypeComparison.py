@@ -45,9 +45,7 @@ class ComparisonResult:
 
         return max(similarityFirst, similaritySecond)
         
-def printComparisonReport(file1: str, file2: str):
-    SIZE = 100
-
+def printComparisonReport(file1: str, file2: str, column_size = 100, min_line_length = 4):
     tokens1 = getTokens(file1)
     tokens2 = getTokens(file2)
     tokens1_types = getTypes(tokens1)
@@ -56,50 +54,50 @@ def printComparisonReport(file1: str, file2: str):
 
     def formatLine(s) -> str:
         s = str(s)
-        l = min(len(s), SIZE)
-        return s[0:l].ljust(SIZE, ' ')
+        l = min(len(s), column_size)
+        return s[0:l].ljust(column_size, ' ')
 
     print('similarity: ', result.similarity())
     print('matchs: ', len(result.matchs))
     print(formatLine(file1), end='')
     print('|', end='')
     print(formatLine(file2))
-    print('-' * SIZE, end='')
+    print('-' * column_size, end='')
     print('|', end='')
-    print('-' * SIZE)
+    print('-' * column_size)
 
-    global lines1
-    global lines2
+    lines1 = [None]
+    lines2 = [None]
     with open(file1) as f:
-        lines1 = f.read().split('\n')
+        lines1.extend(f.read().split('\n'))
     with open(file2) as f:
-        lines2 = f.read().split('\n')
+        lines2.extend(f.read().split('\n'))
 
     for m in result.matchs:
         line1 = range(tokens1[m.startFirst].line, tokens1[m.startFirst + m.length].line + 1)
         line2 = range(tokens2[m.startSecond].line, tokens2[m.startSecond + m.length].line + 1)
 
-        if len(line1) < 4 and len(line2) < 4:
+        if len(line1) < min_line_length and len(line2) < min_line_length:
             continue
 
         for i in range(min(len(line1), len(line2))):
-            print(formatLine('{}. {}'.format(line1[i], lines1[line1[i]-1])), end='')
+            print(formatLine('{}. {}'.format(line1[i], lines1[line1[i]])), end='')
             print('|', end='')
-            print(formatLine('{}. {}'.format(line2[i], lines2[line2[i]-1])))
+            print(formatLine('{}. {}'.format(line2[i], lines2[line2[i]])))
 
         if len(line1) > len(line2):
             for i in range(len(line2), len(line1)):
-                print(formatLine('{}. {}'.format(line1[i], lines1[line1[i]-1])), end='')
+                print(formatLine('{}. {}'.format(line1[i], lines1[line1[i]])), end='')
                 print('|', end='')
                 print(formatLine(''))
         else:
             for i in range(len(line1), len(line2)):
                 print(formatLine(''), end='')
                 print('|', end='')
-                print(formatLine('{}. {}'.format(line2[i], lines2[line2[i]-1])))
-        print('-' * SIZE, end='')
+                print(formatLine('{}. {}'.format(line2[i], lines2[line2[i]])))
+        print('-' * column_size, end='')
         print('|', end='')
-        print('-' * SIZE)
+        print('-' * column_size)
 
 
 def getTypes(tokens: list[Token]):
