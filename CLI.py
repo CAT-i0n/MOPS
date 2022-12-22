@@ -24,7 +24,7 @@ def loadProjects(first, second):
     prepare_projects(first, second)
 
 
-@start.command("graph_compare")
+@start.command("kernel_compare")
 def graphCompareProjects():
     try:
         tree1 = SyntaxTree()
