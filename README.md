@@ -23,7 +23,7 @@ commands:
       -f, --first      first compared project github url
       -s, --second     second compared project github url
 
-  kernel_compare         Compare projects by graph kernel comparison.
+  kernel_compare        Compare projects by graph kernel comparison.
   
   string_compare        Compare projects by string comparison.
   
