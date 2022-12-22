@@ -15,20 +15,20 @@ python main.py
 
 ```
 named arguments:
-  -h, --help             Show this help message and exit.
+  -h, --help             Show help message and exit.
   
 commands:
   load                   Load compared projects from GitHub by url.
     arguments:
-      -f, --first      first compared project git url
-      -s, --second     second compared project git url
+      -f, --first      first compared project github url
+      -s, --second     second compared project github url
 
-  graph_compare         Compared projects use using graph comparison.
+  kernel_compare         Compare projects by graph kernel comparison.
   
-  string_compare        Compared projects use using string comparison.
+  string_compare        Compare projects by string comparison.
   
-  tree_compare          Compared projects use using tree comparison.
+  tree_compare          Compare projects by tree comparison.
   
-  token_compare         Compared projects use using token comparison and 
-                        displayed matching sections of code.
+  token_compare         Compare projects by token comparison and 
+                        display matching sections of code.
 ```
