@@ -15,10 +15,10 @@ python main.py
 
 ```
 named arguments:
-  -h, --help             Show help message and exit.
+  -h, --help            Show help message and exit.
   
 commands:
-  load                   Load compared projects from GitHub by url.
+  load                  Load compared projects from GitHub by url.
     arguments:
       -f, --first      first compared project github url
       -s, --second     second compared project github url
